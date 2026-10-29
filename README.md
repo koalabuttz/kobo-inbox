@@ -4,6 +4,8 @@ Upload an EPUB or PDF from your phone or computer, then pull it onto your
 e-reader with KOReader's built-in **OPDS catalog sync**. Nothing extra is
 installed on the e-reader.
 
+![The Kobo Inbox upload page, listing one book](docs/upload-page.png)
+
 ```
 phone / laptop browser ──upload──▶  app.py  ◀──OPDS feed + downloads── KOReader
                                      │

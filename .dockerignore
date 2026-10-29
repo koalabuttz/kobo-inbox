@@ -3,3 +3,4 @@ data/
 __pycache__/
 test_app.py
 README.md
+docs/
