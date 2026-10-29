@@ -1,0 +1,20 @@
+# Runtime data and secrets: never commit these.
+data/
+credentials.txt
+secrets/
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors, OS, tools
+.DS_Store
+.idea/
+.vscode/
+.cloudflare/
+*.log

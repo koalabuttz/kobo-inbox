@@ -1,0 +1,32 @@
+services:
+  kobo-inbox:
+    build: .
+    image: kobo-inbox:local
+    container_name: kobo-inbox
+    restart: unless-stopped
+    # Must own ./data on the host. Check with: id -u; id -g
+    user: "${PUID:-1000}:${PGID:-1000}"
+    ports:
+      # Default: only this machine can connect. On a server, set BIND_ADDR in .env
+      # to the server's LAN address so a tunnel or the e-reader can reach it.
+      # Never forward this port on your router: use an HTTPS tunnel instead.
+      - "${BIND_ADDR:-127.0.0.1}:${HOST_PORT:-8080}:8080"
+    environment:
+      # Optional, set in .env. Empty means: default usernames ("upload", "reader")
+      # and the generated passwords in data/credentials.txt.
+      UPLOAD_USER: ${UPLOAD_USER:-}
+      UPLOAD_PASSWORD: ${UPLOAD_PASSWORD:-}
+      READER_USER: ${READER_USER:-}
+      READER_PASSWORD: ${READER_PASSWORD:-}
+      ALLOW_WEAK_PASSWORDS: ${ALLOW_WEAK_PASSWORDS:-}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-90}
+    volumes:
+      - ./data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    pids_limit: 64
