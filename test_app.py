@@ -148,6 +148,13 @@ class InboxTest(unittest.TestCase):
         self.assertNotIn("<script>", page)
         self.assertIn("Tom &amp; Jerry", page)
 
+    def test_catalog_address_uses_https_behind_a_tunnel(self):
+        page = self.client.get("/", auth=UPLOAD).get_data(as_text=True)
+        self.assertIn("http://localhost/opds", page)
+        for headers in ({"CF-Visitor": '{"scheme":"https"}'}, {"X-Forwarded-Proto": "https"}):
+            page = self.client.get("/", auth=UPLOAD, headers=headers).get_data(as_text=True)
+            self.assertIn("https://localhost/opds", page, headers)
+
     # --- the feed and downloads ---------------------------------------------
 
     def test_feed_is_newest_first_with_stable_relative_links(self):

@@ -310,8 +310,16 @@ PAGE = """<!doctype html>
 """
 
 
+def public_scheme() -> str:
+    """The scheme visitors use: "https" behind an HTTPS tunnel even though the tunnel
+    talks plain HTTP to us. Display only, so trusting these headers is harmless."""
+    if '"https"' in request.headers.get("CF-Visitor", ""):  # Cloudflare: {"scheme":"https"}
+        return "https"
+    return request.headers.get("X-Forwarded-Proto", request.scheme)
+
+
 def page(messages=(), status=200):
-    scheme = request.headers.get("X-Forwarded-Proto", request.scheme)  # https behind a tunnel
+    scheme = public_scheme()
     return render_template_string(
         PAGE, books=newest_first(), messages=messages, max_mb=app.config["MAX_UPLOAD_MB"],
         feed_url=f"{scheme}://{request.host}/opds",
