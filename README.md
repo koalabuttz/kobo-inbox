@@ -143,3 +143,7 @@ then deletes its test copy (add `--keep` to leave it).
 - DRM-protected books won't open in KOReader. Use DRM-free files.
 - The e-reader's password is stored on the device; if the device is lost, change
   that password (see above).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
